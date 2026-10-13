@@ -12,12 +12,12 @@ import { canView, visibleModules, type ModulePath } from '@/data/access';
 const RoleContext=createContext<{role:Rol;setRole:(r:Rol)=>void}>({role:'Administrador',setRole:()=>{}});
 export const useDemoRole=()=>useContext(RoleContext);
 export function DemoProvider({children}:{children:ReactNode}) {const [role,setRole]=useState<Rol>('Administrador');return <RoleContext.Provider value={{role,setRole}}>{children}</RoleContext.Provider>;}
-const modules = [
+const modules: {title:string;icon:typeof Users;items:{name:string;path:ModulePath;icon:typeof Users}[]}[] = [
  {title:'Operaciones',icon:ClipboardList,items:[{name:'Pedidos',path:'/pedidos',icon:ClipboardList},{name:'Ventas',path:'/ventas',icon:CreditCard},{name:'Inventario',path:'/inventario',icon:Package}]},
  {title:'Mantenimiento',icon:Layers,items:[{name:'Clientes',path:'/clientes',icon:Users},{name:'Productos',path:'/productos',icon:Layers},{name:'Proveedores',path:'/proveedores',icon:Truck},{name:'Vendedores',path:'/vendedores',icon:UserRound}]},
  {title:'Análisis',icon:ChartNoAxesCombined,items:[{name:'Analytics',path:'/analytics',icon:ChartNoAxesCombined},{name:'Insights',path:'/insights',icon:Lightbulb},{name:'Reportes',path:'/reportes',icon:FileChartColumn}]},
  {title:'Administración',icon:ShieldCheck,items:[{name:'Usuarios y roles',path:'/usuarios',icon:Users},{name:'Auditoría',path:'/auditoria',icon:History},{name:'Seguridad',path:'/seguridad',icon:ScanLine}]},
-] satisfies {title:string;icon:typeof Users;items:{name:string;path:ModulePath;icon:typeof Users}[]}[];
+];
 export function Brand({compact=false}:{compact?:boolean}) {return <div className="brand"><div className="brand-symbol"><ChartNoAxesCombined strokeWidth={2.6}/></div>{!compact&&<div className="brand-name">Sales<span>IA</span><small>GESTIÓN COMERCIAL</small></div>}</div>;}
 export function AppShell({children}:{children:ReactNode}) {
  const {pathname}=useLocation();const {role,setRole}=useDemoRole();const navigate=useNavigate();const [collapsed,setCollapsed]=useState(false);const [opened,setOpened]=useState<string|null>(()=>modules.find(g=>g.items.some(i=>i.path===pathname))?.title??'Operaciones');const [search,setSearch]=useState('');const [help,setHelp]=useState(false);const [notifications,setNotifications]=useState(false);
